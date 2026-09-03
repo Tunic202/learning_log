@@ -1,0 +1,11 @@
+*.pyc
+.DS_Store
+*.sqlite3
+ll_env/
+__pycache__/
+.git_backup/
+
+
+
+
+
