@@ -1,74 +1,127 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Learning Log</title>
+
+  <title>{% block title %}Learning Log{% endblock title %}</title>
 
   {% load django_bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-
 </head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'learning_logs:index' %}">
-          Learning Log</a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
-        aria-expanded="false" aria-label="Toggle navigation">
+<body class="bg-light">
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+    <div class="container">
+
+      <a class="navbar-brand fw-bold" href="{% url 'learning_logs:index' %}">
+        Learning Log
+      </a>
+
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
+              aria-controls="navbarCollapse"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
+
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'learning_logs:index' %}">
+              Home
+            </a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'learning_logs:topics' %}">
-              Topics</a></li>
-        </ul> <!-- End of links on left side of navbar -->
+              Topics
+            </a>
+          </li>
 
-        <!-- Account-related links -->
-        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+        </ul>
+
+        <ul class="navbar-nav align-items-md-center">
 
           {% if user.is_authenticated %}
+
             <li class="nav-item">
-              <span class="navbar-text me-2">Hello, {{ user.username }}.
-                </span></li>
+              <span class="navbar-text me-md-3">
+                Hello, {{ user.username }}
+              </span>
+            </li>
+
+            <li class="nav-item">
+              <form action="{% url 'accounts:logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button name="submit" class="btn btn-outline-light btn-sm">
+                  Log out
+                </button>
+              </form>
+            </li>
+
           {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'accounts:register' %}">
-                  Register</a></li>
+
             <li class="nav-item">
               <a class="nav-link" href="{% url 'accounts:login' %}">
-                  Log in</a></li>
+                Log in
+              </a>
+            </li>
+
+            <li class="nav-item ms-md-2">
+              <a class="btn btn-primary btn-sm px-3" href="{% url 'accounts:register' %}">
+                Register
+              </a>
+            </li>
+
           {% endif %}
 
-        </ul> <!-- End of account-related links -->
+        </ul>
 
-        {% if user.is_authenticated %}
-          <form action="{% url 'accounts:logout' %}" method='post'>
-            {% csrf_token %}
-            <button name='submit' class='btn btn-outline-secondary btn-sm'>
-              Log out</button>
-          </form>
-        {% endif %}
+      </div>
+    </div>
+  </nav>
 
-      </div> <!-- Closes collapsible parts of navbar -->
+  <main class="container py-4 py-md-5">
 
-    </div> <!-- Closes navbar's container -->
-  </nav> <!-- End of navbar -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+             role="alert">
+          {{ message }}
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
 
-  <main class="container">
-    <div class="pb-2 mb-2 border-bottom">
+    <div class="mb-4">
       {% block page_header %}{% endblock page_header %}
     </div>
 
-    <div>
-      {% block content %}{% endblock content %}
-    </div>
+    {% block content %}{% endblock content %}
+
   </main>
 
+  <footer class="bg-dark text-light mt-5 py-4">
+    <div class="container text-center">
+      <p class="mb-1 fw-semibold">Learning Log</p>
+      <p class="mb-0 text-secondary">
+        A Django learning journal for tracking knowledge and progress.
+      </p>
+    </div>
+  </footer>
+
 </body>
+
 </html>

@@ -1,10 +1,62 @@
 {% extends "learning_logs/base.xhtml" %}
+
+{% block title %}Add Topic | Learning Log{% endblock title %}
+
+{% block page_header %}
+
+<div>
+  <span class="badge text-bg-primary mb-2 px-3 py-2">
+    Learning Journal
+  </span>
+
+  <h1 class="display-6 fw-bold mb-1">
+    Add a new topic
+  </h1>
+
+  <p class="text-secondary mb-0">
+    Create a topic for something you are currently learning.
+  </p>
+</div>
+
+{% endblock page_header %}
+
 {% block content %}
-  <p>Add a new topic:</p>
-  <form action="{% url 'learning_logs:new_topic' %}" method
-='post'>
-    {% csrf_token %}
-    {{ form.as_div }}
-    <button name="submit">Add topic</button>
-  </form>
+
+<div class="row">
+
+  <div class="col-lg-8 col-xl-7">
+
+    <div class="card border-0 shadow-sm">
+
+      <div class="card-body p-4 p-md-5">
+
+        <form action="{% url 'learning_logs:new_topic' %}" method="post">
+
+          {% csrf_token %}
+
+          {{ form.as_div }}
+
+          <div class="d-flex gap-2 mt-4">
+
+            <button name="submit" class="btn btn-primary px-4">
+              Add topic
+            </button>
+
+            <a href="{% url 'learning_logs:topics' %}"
+               class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 {% endblock content %}
