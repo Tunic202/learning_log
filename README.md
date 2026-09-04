@@ -38,7 +38,7 @@ A full-stack learning journal web application built with Django. Learning Log al
 
 ## Application Screenshots
 
-Screenshots will be added here after the interface has been redesigned and polished.
+Screenshots can be added here to showcase the application interface and key user workflows.
 
 ## Project Structure
 
