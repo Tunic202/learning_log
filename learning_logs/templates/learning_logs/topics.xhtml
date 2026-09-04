@@ -1,22 +1,98 @@
 {% extends 'learning_logs/base.xhtml' %}
 
+{% block title %}My Topics | Learning Log{% endblock title %}
+
 {% block page_header %}
-  <h1>Topics</h1>
+
+<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+
+  <div>
+    <span class="badge text-bg-primary mb-2 px-3 py-2">
+      Learning Journal
+    </span>
+
+    <h1 class="display-6 fw-bold mb-1">
+      My Topics
+    </h1>
+
+    <p class="text-secondary mb-0">
+      Organise the subjects and skills you are currently learning.
+    </p>
+  </div>
+
+  <a class="btn btn-primary px-4"
+     href="{% url 'learning_logs:new_topic' %}">
+    + Add topic
+  </a>
+
+</div>
+
 {% endblock page_header %}
 
 {% block content %}
 
-  <ul class="list-group border-bottom pb-2 mb-4">
-    {% for topic in topics %}
-      <li class="list-group-item border-0">
-        <a href="{% url 'learning_logs:topic' topic.id %}">
-          {{ topic.text }}</a>
-      </li>
-    {% empty %}
-      <li class="list-group-item border-0">No topics have been added yet.</li>
-    {% endfor %}
-  </ul>
+{% if topics %}
 
-  <a href="{% url 'learning_logs:new_topic' %}">Add a new topic</a>
+  <div class="row g-4">
+
+    {% for topic in topics %}
+
+      <div class="col-md-6 col-lg-4">
+
+        <div class="card h-100 border-0 shadow-sm">
+
+          <div class="card-body p-4">
+
+            <div class="d-flex align-items-start justify-content-between mb-3">
+
+              <span class="badge text-bg-light border">
+                Topic {{ forloop.counter }}
+              </span>
+
+            </div>
+
+            <h2 class="h4 fw-bold mb-3">
+              {{ topic.text }}
+            </h2>
+
+            <a class="btn btn-outline-primary"
+               href="{% url 'learning_logs:topic' topic.id %}">
+              View entries
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+{% else %}
+
+  <div class="card border-0 shadow-sm">
+
+    <div class="card-body text-center p-5">
+
+      <h2 class="h4 fw-bold mb-3">
+        No topics yet
+      </h2>
+
+      <p class="text-secondary mb-4">
+        Create your first topic to start recording what you learn.
+      </p>
+
+      <a class="btn btn-primary px-4"
+         href="{% url 'learning_logs:new_topic' %}">
+        Create your first topic
+      </a>
+
+    </div>
+
+  </div>
+
+{% endif %}
 
 {% endblock content %}

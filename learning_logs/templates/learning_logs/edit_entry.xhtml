@@ -1,11 +1,62 @@
 {% extends "learning_logs/base.xhtml" %}
-  {% block content %}
-    <p><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></p>
-    <p>Edit entry:</p>
- 
-  <form action="{% url 'learning_logs:edit_entry' entry.id%}" method='post'>
-    {% csrf_token %}
-    {{ form.as_div }}
-    <button name="submit">Save changes</button>
-  </form>
+
+{% block title %}Edit Entry | {{ topic.text }} | Learning Log{% endblock title %}
+
+{% block page_header %}
+
+<div>
+  <span class="badge text-bg-primary mb-2 px-3 py-2">
+    {{ topic.text }}
+  </span>
+
+  <h1 class="display-6 fw-bold mb-1">
+    Edit entry
+  </h1>
+
+  <p class="text-secondary mb-0">
+    Update your learning entry and save your changes.
+  </p>
+</div>
+
+{% endblock page_header %}
+
+{% block content %}
+
+<div class="row">
+
+  <div class="col-lg-9 col-xl-8">
+
+    <div class="card border-0 shadow-sm">
+
+      <div class="card-body p-4 p-md-5">
+
+        <form action="{% url 'learning_logs:edit_entry' entry.id %}" method="post">
+
+          {% csrf_token %}
+
+          {{ form.as_div }}
+
+          <div class="d-flex gap-2 mt-4">
+
+            <button name="submit" class="btn btn-primary px-4">
+              Save changes
+            </button>
+
+            <a href="{% url 'learning_logs:topic' topic.id %}"
+               class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 {% endblock content %}
